@@ -1,7 +1,7 @@
 require 'fileutils'
 
 class Lunchy
-  VERSION = '0.10.1'
+  VERSION = '0.10.4'
 
   def start(params)
     raise ArgumentError, "start [-wF] [name]" if params.empty?
@@ -36,6 +36,7 @@ class Lunchy
 
     cmd.gsub!('.','\.')
     cmd << " | grep -i \"#{pattern}\"" if pattern
+    print "PID\tStatus\tLabel\n"
     execute(cmd)
   end
 
@@ -125,7 +126,7 @@ class Lunchy
   end
 
   def pattern_for_grep(s)
-    exact ? "\\b#{s}\\b" : s if s
+    exact ? "^#{s}$" : s if s
   end
 
   def pattern_regex(s)
